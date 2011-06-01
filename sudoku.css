@@ -1,0 +1,44 @@
+.sudoku_table{
+	background-color: #FFFFFF;
+	border-collapse: collapse;
+	border-right: 2px solid #666699;
+	border-bottom: 2px solid #666699;
+}
+
+.separate_row {
+	border-top: 2px solid #666699;	
+}
+
+.separate_column {
+	border-left: 2px solid #666699;
+}
+
+table, td {
+	padding: 0;
+}
+
+td{
+	color: #222222;
+	font-family: arial, sans-serif;
+	font-size: 9pt;
+	border: 1px solid #DDDDEE;
+}
+
+input {
+	background-color: transparent;
+	color: #7777DD;
+	font-family: "lucida handwriting", "comic sans ms", cursive;
+	font-size: 24px;
+	
+	border: 0 solid #FFFFFF;
+	margin: 0;
+	text-align: center;
+	width: 48px;
+	height: 48px;
+}
+
+.generated {
+	size: 5;
+	color: #000000;
+	font-family: times, "times new roman", serif;
+}
