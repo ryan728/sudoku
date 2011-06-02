@@ -1,6 +1,29 @@
 html
-	head
-		title Sudoku
-	body
-		h #{cheatsheet}
-		h2 #{puzzle}
+ head
+  title   Sudoku
+  link(rel='stylesheet', type='text/css', href='sudoku.css', media='screen')
+  script(type='text/javascript', src='jquery-1.6.1.js')
+  script(type='text/javascript', src='sudoku.js')
+ body
+  h #{cheatsheet}
+  h2 #{puzzle}
+  table#number_table(border='1px')
+   tr
+    td
+     div.number_1
+    td
+     div.number_2
+    td
+     div.number_3
+    td
+     div.number_4
+    td
+     div.number_5
+    td
+     div.number_6
+    td
+     div.number_7
+    td
+     div.number_8
+    td
+     div.number_9

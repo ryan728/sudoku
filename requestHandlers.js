@@ -62,6 +62,12 @@ function ext_file (response, postData, pathname) {
 		case '.css':
 			contentType = 'text/css'
 			break
+        case 'jpg':
+            contentType = 'image/jpg'
+            break
+        case 'png':
+            contentType = 'image/png'
+            break
 	}
 	export_file(filePath, contentType, response)
 }
