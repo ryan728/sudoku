@@ -13,10 +13,12 @@ function parse_cheat(response_body){
 function parse_table(response_body){
 	var table_regex = /<table.*class=t>(.*)<\/table>/im
 	var inner_table = response_body.match(table_regex)[1]
+
 	var trs = inner_table.split("<TR>")
 	var value_regex = /value="(\d+)"/i
 	var result = ""
-	for (var i = 0; i < trs.length; i ++){
+
+	for (var i = 1; i < trs.length; i ++){
 		var tr = trs[i].substring(0, trs[i].length - 5)
 		var tds = tr.split("</TD>")
 		for(var j = 0; j < tds.length; j ++){			
@@ -37,18 +39,24 @@ function start (response, postData) {
 	var filePath = "./index.html"
 	// export_file(filePath, 'text/html', response)
 	
-	request({uri:'http://view.websudoku.com/?level=4'}, function(error, innerResponse, body){
-			if(innerResponse.statusCode == 200){
-				response.writeHead("200", {"Content-Type": "text/html"})
-				var cheat = parse_cheat(body)
-				var table = parse_table(body)
-				jade.renderFile("./index.jade", {locals: {cheatsheet:cheat, puzzle:table}}, function(err, html){
-					console.log(html)
+//	request({uri:'http://view.websudoku.com/?level=4'}, function(error, innerResponse, body){
+//			if(innerResponse.statusCode == 200){
+//				response.writeHead("200", {"Content-Type": "text/html"})
+//				var cheat = parse_cheat(body)
+//				var table = parse_table(body)
+//				jade.renderFile("./index.jade", {locals: {cheatsheet:cheat, puzzle:table}}, function(err, html){
+////					console.log(html)
+//					response.write(html)
+//					response.end()
+//				})
+//			}
+//		})
+
+    jade.renderFile("./index.jade", {locals: {cheatsheet:'417895632392674581658123974849512367523467819176389425784256193265931748931748256',
+                puzzle:'    407005030000000400100081009000009010300050000000900060804000004006100020090000000307002060'}}, function(err, html){
 					response.write(html)
 					response.end()
 				})
-			}
-		})
 }
 
 function ext_file (response, postData, pathname) {

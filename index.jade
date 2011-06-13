@@ -2,11 +2,16 @@ html
  head
   title   Sudoku
   link(rel='stylesheet', type='text/css', href='sudoku.css', media='screen')
+  script
+   var cheatsheet = '#{cheatsheet}'
+   var puzzle = '#{puzzle}'
   script(type='text/javascript', src='jquery-1.6.1.js')
+  script(type='text/javascript', src='cake.js')
   script(type='text/javascript', src='sudoku.js')
  body
-  h #{cheatsheet}
-  h2 #{puzzle}
+  section
+   canvas#puzzle_canvas(width='450', height='450')
+
   table#number_table(border='1px')
    tr
     td

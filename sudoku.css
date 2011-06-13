@@ -24,14 +24,21 @@ td{
 	font-size: 9pt;
 	border: 1px solid #DDDDFF;
     border-radius: 10px;
-    width:120px;
-    height: 120px;
     background-color: #f5f5dc;
     position: static;
 }
 
+table.number_table td{
+    width:120px;
+    height: 120px;
+}
+
 .mousedown_td{
     background-color: #deb887;
+}
+
+#puzzle_canvas{
+    background-color: #f5f5dc;
 }
 
 input {
