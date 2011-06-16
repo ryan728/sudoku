@@ -10,7 +10,7 @@ var Cell = function(canvas, x, y, text) {
 
     this.isSelected = false
 
-    this.createRect = function(){
+    this.createRect = function() {
         var result = new Rectangle(length_unit * this.scale, length_unit * this.scale)
         result.x = this.x * length_unit + length_unit * this.space
         result.y = this.y * length_unit + length_unit * this.space
@@ -27,14 +27,23 @@ var Cell = function(canvas, x, y, text) {
     this.canvas.append(this.rect)
 
     if (text != '0') {
-        this.rect.fill = 'green'
-        this.createTextNode(text)
+        this.updateValue(text)
     }
 
     //    this.rect.addFrameListener(function(t) {
 //      this.rotation = ((t / 3000) % 1) * Math.PI * 2
 //    })
 
+}
+
+Cell.prototype.hasValue = function(){
+    return this.text != '0'
+}
+
+Cell.prototype.updateValue = function(value){
+    this.text = value
+    this.rect.fill = 'yellow'
+    this.createTextNode(this.text)
 }
 
 Cell.prototype.createTextNode = function(text) {
@@ -46,20 +55,38 @@ Cell.prototype.createTextNode = function(text) {
     this.canvas.append(this.text_node)
 }
 
-Cell.prototype.value = function(){
+Cell.prototype.value = function() {
     return this.text
 }
 
-Cell.prototype.selected = function(){
-    if(!this.red_rec){
-        this.red_rec = this.createRect()
-        this.red_rec.stroke = "red"
-        this.red_rec.strokeWidth = 3
+Cell.prototype.clearSelected = function() {
+    if(this.line_selected_rec){
+        this.canvas.remove(this.line_selected_rec)
+        this.line_selected_rec = null
     }
-    this.isSelected = !this.isSelected
-    if(this.isSelected){
-        this.canvas.append(this.red_rec)
-    } else {
-        this.canvas.remove(this.red_rec)
+    if(this.same_value_selected_rec){
+        this.canvas.remove(this.same_value_selected_rec)
+        this.same_value_selected_rec = null
     }
+}
+
+Cell.prototype.selected = function() {
+    this.sameValueSelected()
+    this.lineSelected();
+}
+
+Cell.prototype.lineSelected = function() {
+    this.line_selected_rec = this.createRect()
+    this.line_selected_rec.stroke = "red"
+    this.line_selected_rec.strokeWidth = 1
+
+    this.canvas.append(this.line_selected_rec)
+}
+
+Cell.prototype.sameValueSelected = function() {
+    if(this.text === '0') return
+    this.same_value_selected_rec = this.createRect()
+    this.same_value_selected_rec.stroke = "green"
+    this.same_value_selected_rec.strokeWidth = 3
+    this.canvas.append(this.same_value_selected_rec)
 }
