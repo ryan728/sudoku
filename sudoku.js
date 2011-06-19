@@ -42,57 +42,123 @@ var Sudoku = function(canavs_element, cheatsheet, puzzle) {
     this.init()
 }
 
-Sudoku.prototype.inSameComb = function (x1, y1, x2, y2){
+Sudoku.prototype.inSameComb = function (x1, y1, x2, y2) {
     return Math.floor(x1 / 3) == Math.floor(x2 / 3) && Math.floor(y1 / 3) == Math.floor(y2 / 3)
 }
 
-Sudoku.prototype.selected = function(x, y){
+Sudoku.prototype.selected = function(x, y) {
     this.selected_x = x
     this.selected_y = y
-    for(var i = 0; i < 9; i++){
-        for(var j = 0; j < 9; j++){
+    for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < 9; j++) {
             this.cells[i][j].clearSelected()
-            if(i == x && j == y) {
+            if (i == x && j == y) {
                 this.cells[i][j].selected()
                 continue
             }
-            if(i == x || j == y || this.inSameComb(x, y, i, j)){
+            if (i == x || j == y || this.inSameComb(x, y, i, j)) {
                 this.cells[i][j].lineSelected()
             }
-            if(this.cells[x][y].value() == this.cells[i][j].value()){
+            if (this.cells[x][y].value() == this.cells[i][j].value()) {
                 this.cells[i][j].sameValueSelected()
             }
         }
     }
 }
 
-Sudoku.prototype.numberSelected = function(number){
-    if(this.selected_x == null || this.selected_y == null) {
+Sudoku.prototype.numberSelected = function(number) {
+    if (this.selected_x == null || this.selected_y == null) {
         alert("select first")
         return
     }
     var cell = this.cells[this.selected_x][this.selected_y]
-    if(cell.hasValue()){
+    if (cell.hasValue()) {
         alert("filled")
         return
     }
-    if(this.cheatsheet.charAt(this.selected_y * 9 + this.selected_x) != number.toString()){
+    if (this.cheatsheet.charAt(this.selected_y * 9 + this.selected_x) != number.toString()) {
         alert("wrong")
         return
     }
     cell.updateValue(number)
+
+    var horizontal = true
+    var vertical = true
+    var square = true
+
+    for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < 9; j++) {
+            if (!this.cells[i][j].hasValue()) {
+                if (i == this.selected_x) {
+                    vertical = false
+                }
+                if (j == this.selected_y) {
+                    horizontal = false
+                }
+                if (this.inSameComb(this.selected_x, this.selected_y, i, j)) {
+                    square = false
+                }
+            }
+        }
+    }
+    if (horizontal) {
+        for (var i = 0; i < 9; i++) {
+            this.cells[i][this.selected_y].bian()
+        }
+    }
+
+    if (vertical) {
+        for (var i = 0; i < 9; i++) {
+            if (i == this.selected_y && horizontal) continue
+            if (this.selected_y == i) alert("should not be here yyy")
+            this.cells[this.selected_x][i].bian()
+        }
+    }
+
+    if (square) {
+        var start_x = Math.floor(this.selected_x / 3) * 3
+        var start_y = Math.floor(this.selected_y / 3) * 3
+        for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < 3; j++) {
+                if (this.selected_x == start_x + i && vertical) continue
+                if (this.selected_y == start_y + j && horizontal) continue
+                if (this.selected_x == start_x + i && this.selected_y == start_y + j) alert("should not be here")
+                this.cells[start_x + i][start_y + j].bian()
+            }
+        }
+    }
+
+    if (!horizontal && !vertical && !square) {
+        this.cells[this.selected_x][this.selected_y].bian()
+    }
+
     this.selected(this.selected_x, this.selected_y)
     this.checkGame()
 }
 
-Sudoku.prototype.checkGame = function(){
-    for(var i = 0; i < 9; i++){
-        for(var j = 0; j < 9; j++){
-            if(this.cheatsheet.charAt(j * 9 + i) != this.cells[i][j].value()) return
+Sudoku.prototype.checkGame = function() {
+    for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < 9; j++) {
+            if (this.cheatsheet.charAt(j * 9 + i) != this.cells[i][j].value()) return
         }
     }
-    alert("Congratulation!")
+    sleep_and_run(this, 3000)
 }
+
+var sleep_and_run = function(instance, sleep_time){
+    setTimeout(function(){
+        instance.run()
+    }, sleep_time)
+}
+
+Sudoku.prototype.run = function(instance){
+     for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < 9; j++) {
+            this.cells[i][j].bian()
+        }
+    }
+}
+
 
 $(function() {
     $("#number_table>tbody>tr>td").each(function(index, element) {
@@ -109,8 +175,8 @@ $(function() {
     var sudoku = new Sudoku(document.getElementById("puzzle_canvas"), cheatsheet, puzzle)
 
     $("#puzzle_canvas").click(function(e) {
-            var x = Math.floor((e.pageX - $("#puzzle_canvas").offset().left) / length_unit);
-            var y = Math.floor((e.pageY - $("#puzzle_canvas").offset().top) / length_unit);
-            sudoku.selected(x, y)
+        var x = Math.floor((e.pageX - $("#puzzle_canvas").offset().left) / length_unit);
+        var y = Math.floor((e.pageY - $("#puzzle_canvas").offset().top) / length_unit);
+        sudoku.selected(x, y)
     })
 })

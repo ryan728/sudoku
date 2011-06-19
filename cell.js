@@ -7,8 +7,7 @@ var Cell = function(canvas, x, y, text) {
     this.x = x
     this.y = y
     this.text = text
-
-    this.isSelected = false
+    this.rotation_count = 0
 
     this.createRect = function() {
         var result = new Rectangle(length_unit * this.scale, length_unit * this.scale)
@@ -21,19 +20,15 @@ var Cell = function(canvas, x, y, text) {
 
     this.rect = this.createRect()
 
-    this.rect.addEventListener("click", function(ev) {
-        this.rotation = ((ev / 3000) % 1) * Math.PI * 2
-    }, true)
+//    this.rect.addEventListener("click", function(ev) {
+//        this.rotation = ((ev / 3000) % 1) * Math.PI * 2
+//    }, true)
     this.canvas.append(this.rect)
 
     if (text != '0') {
         this.updateValue(text)
+        this.bian()
     }
-
-    //    this.rect.addFrameListener(function(t) {
-//      this.rotation = ((t / 3000) % 1) * Math.PI * 2
-//    })
-
 }
 
 Cell.prototype.hasValue = function(){
@@ -46,10 +41,17 @@ Cell.prototype.updateValue = function(value){
     this.createTextNode(this.text)
 }
 
+Cell.prototype.bian = function(){
+    this.rotation_count ++
+    this.text_node.animateTo("rotation", Math.PI * 2 * this.rotation_count, 3000, "sine")
+}
+
 Cell.prototype.createTextNode = function(text) {
     this.text_node = new TextNode(text, {
-                cx: 15 + this.x * length_unit,
-                cy: (this.y + 1) * length_unit - 15,
+                x: 25 + this.x * length_unit,
+                y: (this.y + 1) * length_unit - 25,
+                cx: -13,
+                cy: 12,
                 font: "bold 30px lucida handwriting"
             })
     this.canvas.append(this.text_node)
