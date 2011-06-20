@@ -19,10 +19,6 @@ var Cell = function(canvas, x, y, text) {
     }
 
     this.rect = this.createRect()
-
-//    this.rect.addEventListener("click", function(ev) {
-//        this.rotation = ((ev / 3000) % 1) * Math.PI * 2
-//    }, true)
     this.canvas.append(this.rect)
 
     if (text != '0') {

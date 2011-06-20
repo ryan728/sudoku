@@ -36,29 +36,26 @@ function parse_table(response_body) {
 function start(response, postData) {
     console.log("Request handler 'start' was called.")
 
-    var filePath = "./index.html"
-    // export_file(filePath, 'text/html', response)
+//    request({uri:'http://view.websudoku.com/?level=4'}, function(error, innerResponse, body) {
+//        if (innerResponse.statusCode == 200) {
+//            response.writeHead("200", {"Content-Type": "text/html"})
+//            var cheat = parse_cheat(body)
+//            var table = parse_table(body)
+////                console.log("cheat : " + cheat)
+////                console.log("table : " + table)
+//            jade.renderFile("./index.jade", {locals: {cheatsheet:cheat, puzzle:table}}, function(err, html) {
+//                response.write(html)
+//                response.end()
+//            })
+//        }
+//    })
 
-    request({uri:'http://view.websudoku.com/?level=4'}, function(error, innerResponse, body) {
-        if (innerResponse.statusCode == 200) {
-            response.writeHead("200", {"Content-Type": "text/html"})
-            var cheat = parse_cheat(body)
-            var table = parse_table(body)
-//                console.log("cheat : " + cheat)
-//                console.log("table : " + table)
-            jade.renderFile("./index.jade", {locals: {cheatsheet:cheat, puzzle:table}}, function(err, html) {
-                response.write(html)
-                response.end()
-            })
-        }
-    })
-
-//    jade.renderFile("./index.jade", {locals: {cheatsheet:'417895632392674581658123974849512367523467819176389425784256193265931748931748256',
-//                puzzle:'417895632392674581658123974849512367523467819176389420784256193265931748931748256'}}, function(err, html){
-////                puzzle:'407005030000004001008100900009010300500000009006080400004006100200900000030700206'}}, function(err, html){
-//					response.write(html)
-//					response.end()
-//				})
+    jade.renderFile("./index.jade", {locals: {cheatsheet:'417895632392674581658123974849512367523467819176389425784256193265931748931748256',
+                puzzle:'417895632392674581658123974849512367523467819176389420784256193265931748931748256'}}, function(err, html){
+//                puzzle:'407005030000004001008100900009010300500000009006080400004006100200900000030700206'}}, function(err, html){
+					response.write(html)
+					response.end()
+				})
 }
 
 function ext_file(response, postData, pathname) {
