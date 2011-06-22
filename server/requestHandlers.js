@@ -1,4 +1,4 @@
-var exec = require("child_process").exec
+//var exec = require("child_process").exec
 var querystring = require("querystring")
 var fs = require("fs")
 var path = require("path")
@@ -43,14 +43,14 @@ function start(response, postData) {
 //            var table = parse_table(body)
 ////                console.log("cheat : " + cheat)
 ////                console.log("table : " + table)
-//            jade.renderFile("./index.jade", {locals: {cheatsheet:cheat, puzzle:table}}, function(err, html) {
+//            jade.renderFile("./jade/index.jade", {locals: {cheatsheet:cheat, puzzle:table}}, function(err, html) {
 //                response.write(html)
 //                response.end()
 //            })
 //        }
 //    })
 
-    jade.renderFile("./index.jade", {locals: {cheatsheet:'417895632392674581658123974849512367523467819176389425784256193265931748931748256',
+    jade.renderFile("./jade/index.jade", {locals: {cheatsheet:'417895632392674581658123974849512367523467819176389425784256193265931748931748256',
                 puzzle:'417895632392674581658123974849512367523467819176389420784256193265931748931748256'}}, function(err, html){
 //                puzzle:'407005030000004001008100900009010300500000009006080400004006100200900000030700206'}}, function(err, html){
 					response.write(html)

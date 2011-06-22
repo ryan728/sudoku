@@ -65,30 +65,30 @@ td div{
 }
 
 .number_1 {
-    background: url("images/colorful_numbers.png") no-repeat 18px 3px;
+    background: url("../images/colorful_numbers.png") no-repeat 18px 3px;
 }
 
 .number_2 {
-    background: url("images/colorful_numbers.png") no-repeat -82px 3px;
+    background: url("../images/colorful_numbers.png") no-repeat -82px 3px;
 }
 .number_3 {
-    background: url("images/colorful_numbers.png") no-repeat -182px 3px;
+    background: url("../images/colorful_numbers.png") no-repeat -182px 3px;
 }
 .number_4 {
-    background: url("images/colorful_numbers.png") no-repeat 18px -112px;
+    background: url("../images/colorful_numbers.png") no-repeat 18px -112px;
 }
 .number_5 {
-    background: url("images/colorful_numbers.png") no-repeat -82px -112px;
+    background: url("../images/colorful_numbers.png") no-repeat -82px -112px;
 }
 .number_6 {
-    background: url("images/colorful_numbers.png") no-repeat -182px -112px;
+    background: url("../images/colorful_numbers.png") no-repeat -182px -112px;
 }
 .number_7 {
-    background: url("images/colorful_numbers.png") no-repeat 18px -222px;
+    background: url("../images/colorful_numbers.png") no-repeat 18px -222px;
 }
 .number_8 {
-    background: url("images/colorful_numbers.png") no-repeat -86px -226px;
+    background: url("../images/colorful_numbers.png") no-repeat -86px -226px;
 }
 .number_9 {
-    background: url("images/colorful_numbers.png") no-repeat -190px -225px;
+    background: url("../images/colorful_numbers.png") no-repeat -190px -225px;
 }
