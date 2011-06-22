@@ -1,4 +1,4 @@
-var handler = require("../requestHandlers")
+var handler = require("../server/requestHandlers")
 var assert = require('assert')
 
 var response = "var m_d='<B>Here is the puzzle. Good luck!</B>';\nvar s_c=false;\nvar cheat='479218563512367894638954712295671438346825971781493256164589327923746185857132649';\nvar prefix='800cx';\nvar pid='3524789683';"
