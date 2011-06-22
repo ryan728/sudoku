@@ -175,6 +175,15 @@ $(function() {
         })
     })
 
+    $("#connectBtn").bind("click", function(){
+        var socket = new io.Socket()
+        socket.connect("http://localhost:8888")
+        socket.on("connect", function(){
+            socket.emit('message', $("#nickInput").val());
+            socket.send($("#nickInput").val())
+        })
+    })
+
     var sudoku = new Sudoku(document.getElementById("puzzle_canvas"), cheatsheet, puzzle)
 
     $("#puzzle_canvas").click(function(e) {

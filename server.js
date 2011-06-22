@@ -1,5 +1,6 @@
 var http = require("http")
 var url = require("url")
+var io = require('socket.io')
 
 function start (route, handle) {
 	function onRequest (request, response) {
@@ -16,8 +17,16 @@ function start (route, handle) {
 			route(handle, pathname, response, postData)
 		})
 	}
-	http.createServer(onRequest).listen(8888)
+	var server = http.createServer(onRequest)
+    server.listen(8888)
 	console.log("Server has started.")
+
+    var socket = io.listen(server)
+    socket.on('connection', function(client){
+        client.on('message', function(message){
+            console.log("---------" + message)
+        })
+    })
 }
 
 exports.start = start

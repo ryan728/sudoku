@@ -9,7 +9,12 @@ html
   script(type='text/javascript', src='cake.js')
   script(type='text/javascript', src='cell.js')
   script(type='text/javascript', src='sudoku.js')
+  script(type='text/javascript', src='socket.io.js')
  body
+  section
+   label(for='nick') Name:
+   input#nickInput(type='text', name='nick')
+   input#connectBtn(type='submit', value='Join')
   section
    canvas#puzzle_canvas(width='450', height='450')
 
