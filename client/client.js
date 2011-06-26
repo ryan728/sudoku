@@ -6,17 +6,17 @@ Client = function(name) {
 
 Client.prototype.connect = function() {
     this.socket.connect("http://localhost:8888")
+    alert("Connected")
     this.socket.on("connect", function() {
-        alert("Connected")
         $("#connection_section").hide()
         $("#chat_room_section").show()
 
         this.send(JSON.stringify({"type":"connected", "name":this.client.name}))
         this.on("message", function(message) {
-//                var reply = JSON.parse(message);
-//                $("#chat_room").val($("#chat_room").val() + "\n" + reply.name + ": " + reply.message)
             this.client.handleMessage(message)
         })
+    })
+    this.socket.on("disconnect", function() {
     })
 }
 
@@ -33,8 +33,9 @@ Client.prototype.send = function(message) {
 }
 
 Client.prototype.handleMessage = function(message) {
+    alert("message :" + message)
+
     var reply = JSON.parse(message);
-    alert("message type : " + reply.type)
 
     switch (reply.type) {
         case "connected":
@@ -43,9 +44,21 @@ Client.prototype.handleMessage = function(message) {
                     attr("value", reply.name).
                     text(reply.name));
             break
-        case "disconnect":
-            break
         default:
-            $("#chat_room").val($("#chat_room").val() + "\n" + reply.name + ": " + reply.message)
+            this.updatePlayerList(reply);
     }
+}
+
+Client.prototype.updatePlayerList = function(reply) {
+    $("#player_list").empty()
+    for (var i=0; i<reply.players.length; i++) {
+        this.addPlayer(reply.players[i].name,reply.players[i].ready)
+    }
+}
+
+Client.prototype.addPlayer = function(name, isReady) {
+    $('#player_list').
+                    append($("<option></option>").
+                    attr("value", name).
+                    text(name + "(" + isReady + ")"));
 }

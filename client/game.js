@@ -28,6 +28,10 @@ $(function() {
         GAME.client.send($("#messageInput").val())
     })
 
+    $("#joinBtn").bind('click', function(){
+        GAME.client.join($("player_list").val())
+    })
+
     var sudoku = new Sudoku(document.getElementById("puzzle_canvas"), cheatsheet, puzzle)
 
     $("#puzzle_canvas").click(function(e) {

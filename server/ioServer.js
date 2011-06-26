@@ -1,4 +1,5 @@
 var io = require('socket.io')
+var jquery = require("jquery")
 
 var socket
 var clients = []
@@ -21,13 +22,25 @@ function handleMessage(message) {
     var reply = JSON.parse(message);
     switch (reply.type) {
         case "connected":
-            clients.push({name:reply.name, ready:false})
+            if(!inClientsArray(reply.name)){
+                clients.push({"name":reply.name, "ready":true})
+            }
+            socket.broadcast("{\"players\":" + JSON.stringify(clients) + "}")
             break
         case "disconnect":
             break
         default:
     }
-    socket.broadcast(message)
+//    socket.broadcast(message)
+}
+
+function inClientsArray(name){
+    for(var i = 0; i<clients.length; i++){
+        if(clients[i].name == name){
+            return true
+        }
+    }
+    return false
 }
 
 exports.startIOServer = startIOServer
