@@ -30,8 +30,8 @@ function handleMessage(message) {
         case "disconnect":
             break
         default:
+            socket.broadcast(message)
     }
-//    socket.broadcast(message)
 }
 
 function inClientsArray(name){

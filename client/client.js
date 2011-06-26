@@ -12,7 +12,7 @@ Client.prototype.connect = function() {
         $("#connection_section").hide()
         $("#chat_room_section").show()
 
-        this.send(JSON.stringify({"type":"connected", "name":this.client.name}))
+        this.client.sendMessage(null, "connected")
         this.on("message", function(message) {
             this.client.handleMessage(message)
         })
@@ -22,14 +22,14 @@ Client.prototype.connect = function() {
 }
 
 Client.prototype.disconnect = function() {
-    this.socket.send(JSON.stringify({"type":"disconnect", "name":this.name}))
+    this.sendMessage(null, "disconnect")
     this.socket.disconnect()
     $("#connection_section").show()
     $("#chat_room_section").hide()
 }
 
 Client.prototype.send = function(message) {
-    this.socket.send(JSON.stringify({"name":this.name, "message":$("#messageInput").val()}))
+    this.sendMessage($("#messageInput").val())
     $("#chat_room").val($("#chat_room").val() + "\n" + this.userName + ": " + "message" + $("#messageInput").val())
 }
 
@@ -39,11 +39,11 @@ Client.prototype.handleMessage = function(message) {
     var reply = JSON.parse(message);
 
     switch (reply.type) {
-        case "connected":
-            $('#player_list').
-                    append($("<option></option>").
-                    attr("value", reply.name).
-                    text(reply.name));
+        case "joinRequest":
+            this.handleJoinRequest(reply)
+            break
+        case "joinReply":
+            this.handleJoinReply(reply)
             break
         default:
             this.updatePlayerList(reply);
@@ -57,9 +57,32 @@ Client.prototype.updatePlayerList = function(reply) {
     }
 }
 
+Client.prototype.handleJoinRequest = function(reply){
+    var result = confirm(reply.name + " request to play game with you, agreed?")
+
+    this.sendMessage(result, "joinReply")
+}
+
+Client.prototype.handleJoinReply = function(reply){
+    if(reply.message){
+        alert("request accepted.")
+        $("#puzzle_section").show()
+    } else{
+        alert("request denied.")
+    }
+}
+
 Client.prototype.addPlayer = function(name, isReady) {
     $('#player_list').
                     append($("<option></option>").
                     attr("value", name).
                     text(name + "(" + isReady + ")"));
+}
+
+Client.prototype.join = function(playerName){
+    this.sendMessage(playerName, "joinRequest")
+}
+
+Client.prototype.sendMessage = function(message, messageType){
+    this.socket.send(JSON.stringify({"name":this.name, "message":message, "type":messageType}))
 }
