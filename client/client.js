@@ -8,6 +8,7 @@ Client.prototype.connect = function() {
     this.socket.connect("http://localhost:8888")
     alert("Connected")
     this.socket.on("connect", function() {
+        $("#name_p").text("Name: " + this.client.name)
         $("#connection_section").hide()
         $("#chat_room_section").show()
 
@@ -33,7 +34,7 @@ Client.prototype.send = function(message) {
 }
 
 Client.prototype.handleMessage = function(message) {
-    alert("message :" + message)
+//    alert("message :" + message)
 
     var reply = JSON.parse(message);
 
