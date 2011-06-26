@@ -10,9 +10,9 @@ var Cell = function(canvas, x, y, text) {
     this.rotation_count = 0
 
     this.createRect = function() {
-        var result = new Rectangle(length_unit * this.scale, length_unit * this.scale)
-        result.x = this.x * length_unit + length_unit * this.space
-        result.y = this.y * length_unit + length_unit * this.space
+        var result = new Rectangle(GAME.length_unit * this.scale, GAME.length_unit * this.scale)
+        result.x = this.x * GAME.length_unit + GAME.length_unit * this.space
+        result.y = this.y * GAME.length_unit + GAME.length_unit * this.space
         result.rx = this.border_radius
         result.ry = this.border_radius
         return result
@@ -44,8 +44,8 @@ Cell.prototype.bian = function(){
 
 Cell.prototype.createTextNode = function(text) {
     this.text_node = new TextNode(text, {
-                x: 25 + this.x * length_unit,
-                y: (this.y + 1) * length_unit - 25,
+                x: 25 + this.x * GAME.length_unit,
+                y: (this.y + 1) * GAME.length_unit - 25,
                 cx: -13,
                 cy: 12,
                 font: "bold 30px lucida handwriting"

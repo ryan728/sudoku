@@ -1,5 +1,3 @@
-var length_unit = 50
-
 var sleep_and_run = function(instance, sleep_time) {
     setTimeout(function() {
         instance.run()
@@ -14,12 +12,12 @@ var Sudoku = function(canavs_element, cheatsheet, puzzle) {
     this.cheatsheet = cheatsheet
 
     this.init = function() {
-        var length_max = length_unit * 9
+        var length_max = GAME.length_unit * 9
         for (var i = 0; i < 10; i ++) {
             var strokeWidth = 0.6
             var start_point = strokeWidth
             if (i > 0) {
-                start_point = i * length_unit
+                start_point = i * GAME.length_unit
             }
             if (start_point == length_max) {
                 start_point -= strokeWidth
@@ -161,34 +159,3 @@ Sudoku.prototype.run = function() {
         this.cells[i][j].bian()
     })
 }
-
-
-$(function() {
-    $("#number_table>tbody>tr>td").each(function(index, element) {
-        $(element).bind("mousedown", function() {
-            $(element).addClass("mousedown_td")
-            sudoku.numberSelected(index + 1)
-            $(element).mouseup()
-        })
-        $(element).bind("mouseup", function() {
-            $(element).removeClass("mousedown_td")
-        })
-    })
-
-    $("#connectBtn").bind("click", function(){
-        var socket = new io.Socket()
-        socket.connect("http://localhost:8888")
-        socket.on("connect", function(){
-            socket.emit('message', $("#nickInput").val());
-            socket.send($("#nickInput").val())
-        })
-    })
-
-    var sudoku = new Sudoku(document.getElementById("puzzle_canvas"), cheatsheet, puzzle)
-
-    $("#puzzle_canvas").click(function(e) {
-        var x = Math.floor((e.pageX - $("#puzzle_canvas").offset().left) / length_unit);
-        var y = Math.floor((e.pageY - $("#puzzle_canvas").offset().top) / length_unit);
-        sudoku.selected(x, y)
-    })
-})

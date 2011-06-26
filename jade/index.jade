@@ -8,13 +8,24 @@ html
   script(type='text/javascript', src='lib/jquery-1.6.1.js')
   script(type='text/javascript', src='lib/cake.js')
   script(type='text/javascript', src='client/cell.js')
+  script(type='text/javascript', src='client/game.js')
+  script(type='text/javascript', src='client/client.js')
   script(type='text/javascript', src='client/sudoku.js')
   script(type='text/javascript', src='lib/socket.io.js')
  body
-  section
+  section#connection_section
    label(for='nick') Name:
    input#nickInput(type='text', name='nick')
-   input#connectBtn(type='submit', value='Join')
+   input#connectBtn(type='button', value='Join')
+  section#chat_room_section(style='display:none')
+   label(for='messageInput') Message:
+   input#messageInput(type='text', name='message')
+   input#messageBtn(type='button', value="Send")
+   input#disconnectBtn(type='button', value='Disconnect')
+   section
+    textarea#chat_room(rows='10', cols='50')
+    select#player_list(multiple='true', width="20")
+    input#selectPlayerBtn(type='button', value='Play')
   section
    canvas#puzzle_canvas(width='450', height='450')
 
