@@ -53,23 +53,34 @@ Client.prototype.handleMessage = function(message) {
 Client.prototype.updatePlayerList = function(reply) {
     $("#player_list").empty()
     for (var i=0; i<reply.players.length; i++) {
-        this.addPlayer(reply.players[i].name,reply.players[i].ready)
+        var player = reply.players[i]
+        if(player.name != this.name){
+            this.addPlayer(player.name, player.ready)
+        }
     }
 }
 
 Client.prototype.handleJoinRequest = function(reply){
-    var result = confirm(reply.name + " request to play game with you, agreed?")
-
-    this.sendMessage(result, "joinReply")
+    if(reply.message == this.name){
+        var result = confirm(reply.name + " request to play game with you, agreed?")
+        this.sendMessage(result, "joinReply", {"player" : reply.name})
+    }
 }
 
 Client.prototype.handleJoinReply = function(reply){
-    if(reply.message){
-        alert("request accepted.")
-        $("#puzzle_section").show()
-    } else{
-        alert("request denied.")
-    }
+//    alert(reply.name + "  "  + reply.player + "   " + reply.message)
+     if(reply.message){
+        if(reply.player == this.name){
+            alert("request accepted.")
+        }
+        if(reply.player == this.name || reply.name == this.name){
+            $("#puzzle_section").show()
+        }
+     } else{
+         if(reply.player == this.name){
+            alert("request denied.")
+        }
+     }
 }
 
 Client.prototype.addPlayer = function(name, isReady) {
@@ -83,6 +94,12 @@ Client.prototype.join = function(playerName){
     this.sendMessage(playerName, "joinRequest")
 }
 
-Client.prototype.sendMessage = function(message, messageType){
-    this.socket.send(JSON.stringify({"name":this.name, "message":message, "type":messageType}))
+Client.prototype.sendMessage = function(message, messageType, others){
+    var package = {"name":this.name, "message":message, "type":messageType}
+    if(others){
+        for(var member in others){
+            package[member] = others[member]
+        }
+    }
+    this.socket.send(JSON.stringify(package))
 }

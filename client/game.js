@@ -29,7 +29,7 @@ $(function() {
     })
 
     $("#joinBtn").bind('click', function(){
-        GAME.client.join($("player_list").val())
+        GAME.client.join($("#player_list").val())
     })
 
     var sudoku = new Sudoku(document.getElementById("puzzle_canvas"), cheatsheet, puzzle)
