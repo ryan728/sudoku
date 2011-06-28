@@ -74,7 +74,7 @@ Client.prototype.handleJoinReply = function(reply){
             alert("request accepted.")
         }
         if(reply.player == this.name || reply.name == this.name){
-            $("#puzzle_section").show()
+            GAME.start(reply.cheat, reply.puzzle)
         }
      } else{
          if(reply.player == this.name){

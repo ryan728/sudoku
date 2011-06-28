@@ -1,5 +1,5 @@
 var io = require('socket.io')
-var jquery = require("jquery")
+var fetcher = require('../server/puzzleFetcher')
 
 var socket
 var clients = []
@@ -27,10 +27,25 @@ function handleMessage(message) {
             }
             socket.broadcast("{\"players\":" + JSON.stringify(clients) + "}")
             break
+        case "joinReply":
+            handleJoinReply(reply)
+            break
         case "disconnect":
             break
         default:
             socket.broadcast(message)
+    }
+}
+
+function handleJoinReply(reply){
+    if(reply.message){
+        fetcher.fetchPuzzle(function(cheat, puzzle){
+            reply.cheat = cheat
+            reply.puzzle = puzzle
+            socket.broadcast(JSON.stringify(reply))
+        })
+    } else{
+        socket.broadcast(JSON.stringify(reply))
     }
 }
 
