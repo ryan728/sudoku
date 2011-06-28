@@ -26,6 +26,8 @@ GAME.start = function(cheat, puzzle){
 }
 
 $(function() {
+    $('#fancyClock').tzineClock();
+
     $("#connectBtn").bind("click", function() {
         GAME.client = new Client($("#nickInput").val())
         GAME.client.connect()

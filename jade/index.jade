@@ -2,10 +2,12 @@ html
  head
   title   Sudoku
   link(rel='stylesheet', type='text/css', href='css/sudoku.css', media='screen')
+  link(rel='stylesheet', type='text/css', href='css/jquery.tzineClock.css', media='screen')
   script
    var _cheatsheet = '#{cheatsheet}'
    var _puzzle = '#{puzzle}'
   script(type='text/javascript', src='lib/jquery-1.6.1.js')
+  script(type='text/javascript', src='lib/jquery.tzineClock.js')
   script(type='text/javascript', src='lib/cake.js')
   script(type='text/javascript', src='client/cell.js')
   script(type='text/javascript', src='client/game.js')
@@ -13,6 +15,8 @@ html
   script(type='text/javascript', src='client/sudoku.js')
   script(type='text/javascript', src='lib/socket.io.js')
  body
+  div#fancyClock
+   input(type='button', value='Timeout', onclick="$('#fancyClock').timeout()")
   section#connection_section
    label(for='nick') Name:
    input#nickInput(type='text', name='nick')
