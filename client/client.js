@@ -45,6 +45,9 @@ Client.prototype.handleMessage = function(message) {
         case "joinReply":
             this.handleJoinReply(reply)
             break
+        case "fetchPuzzle":
+            this.handlePuzzle(reply)
+            break
         default:
             this.updatePlayerList(reply);
     }
@@ -83,11 +86,21 @@ Client.prototype.handleJoinReply = function(reply){
      }
 }
 
+Client.prototype.handlePuzzle = function(reply){
+    if(reply.name == this.name){
+        GAME.start(reply.cheat, reply.puzzle)
+    }
+}
+
 Client.prototype.addPlayer = function(name, isReady) {
     $('#player_list').
                     append($("<option></option>").
                     attr("value", name).
                     text(name + "(" + isReady + ")"));
+}
+
+Client.prototype.play = function(level){
+    this.sendMessage(level, "fetchPuzzle")
 }
 
 Client.prototype.join = function(playerName){

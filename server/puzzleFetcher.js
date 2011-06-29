@@ -1,9 +1,9 @@
 var request = require("request")
 
-function fetchPuzzle(callback){
-    console.log("Request handler 'start' was called.")
+function fetchPuzzle(level, callback){
+    console.log("Request handler 'fetch puzzle' with level " + level + " was called.")
 
-    request({uri:'http://view.websudoku.com/?level=4'}, function(error, innerResponse, body) {
+    request({uri:'http://view.websudoku.com/?level=' + level}, function(error, innerResponse, body) {
         if (innerResponse.statusCode == 200) {
             var cheat = parse_cheat(body)
             var puzzle = parse_table(body)

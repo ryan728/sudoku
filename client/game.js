@@ -3,7 +3,7 @@ var GAME = {
     "client" : null
 }
 
-GAME.start = function(cheat, puzzle){
+GAME.start = function(cheat, puzzle) {
     $("#puzzle_section").show()
     var sudoku = new Sudoku(document.getElementById("puzzle_canvas"), cheat, puzzle)
 
@@ -23,11 +23,11 @@ GAME.start = function(cheat, puzzle){
             $(element).removeClass("mousedown_td")
         })
     })
+
+    $('#fancyClock').tzineClock();
 }
 
 $(function() {
-    $('#fancyClock').tzineClock();
-
     $("#connectBtn").bind("click", function() {
         GAME.client = new Client($("#nickInput").val())
         GAME.client.connect()
@@ -41,7 +41,11 @@ $(function() {
         GAME.client.send($("#messageInput").val())
     })
 
-    $("#joinBtn").bind('click', function(){
+    $("#localPlayBtn").bind('click', function() {
+        GAME.client.play($("#levelSelect").val())
+    })
+
+    $("#joinBtn").bind('click', function() {
         GAME.client.join($("#player_list").val())
     })
 })

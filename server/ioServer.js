@@ -22,36 +22,56 @@ function handleMessage(message) {
     var reply = JSON.parse(message);
     switch (reply.type) {
         case "connected":
-            if(!inClientsArray(reply.name)){
+            if (!inClientsArray(reply.name)) {
                 clients.push({"name":reply.name, "ready":true})
             }
-            socket.broadcast("{\"players\":" + JSON.stringify(clients) + "}")
+            broadcastMessage("{\"players\":" + JSON.stringify(clients) + "}")
             break
         case "joinReply":
             handleJoinReply(reply)
             break
+        case "fetchPuzzle":
+            handleFetchPuzzle(reply)
+            break
         case "disconnect":
             break
         default:
-            socket.broadcast(message)
+            broadcastMessage(message)
     }
 }
 
-function handleJoinReply(reply){
-    if(reply.message){
-        fetcher.fetchPuzzle(function(cheat, puzzle){
-            reply.cheat = cheat
-            reply.puzzle = puzzle
-            socket.broadcast(JSON.stringify(reply))
-        })
-    } else{
-        socket.broadcast(JSON.stringify(reply))
+function handleJoinReply(reply) {
+    if (reply.message) {
+        fetcher.fetchPuzzle(4, puzzleHandler(reply))
+    } else {
+        broadcastJSONObject(reply)
     }
 }
 
-function inClientsArray(name){
-    for(var i = 0; i<clients.length; i++){
-        if(clients[i].name == name){
+function handleFetchPuzzle(reply) {
+    fetcher.fetchPuzzle(reply.level, puzzleHandler(reply))
+}
+
+function puzzleHandler(reply){
+    return function(cheat, puzzle){
+        reply.cheat = cheat
+        reply.puzzle = puzzle
+        broadcastJSONObject(reply)
+    }
+}
+
+function broadcastJSONObject(obj){
+    broadcastMessage(JSON.stringify(obj))
+}
+
+function broadcastMessage(message){
+    console.log("#broadcast:  " + message)
+    socket.broadcast(message)
+}
+
+function inClientsArray(name) {
+    for (var i = 0; i < clients.length; i++) {
+        if (clients[i].name == name) {
             return true
         }
     }
