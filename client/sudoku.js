@@ -6,6 +6,7 @@ var sleep_and_run = function(instance, sleep_time) {
 
 var Sudoku = function(canavs_element, cheatsheet, puzzle) {
     this.canvas = new Canvas(canavs_element)
+    this.canvas.removeAllChildren()
     this.cells = []
     this.selected_x = null
     this.selected_y = null
@@ -148,14 +149,14 @@ Sudoku.prototype.sparkle = function() {
 }
 
 Sudoku.prototype.checkGame = function() {
-    this.traverse_and_run(function(i, j){
+    this.traverse_and_run(function(i, j) {
         if (this.cheatsheet.charAt(j * 9 + i) != this.cells[i][j].value()) return
     })
     sleep_and_run(this, 3000)
 }
 
 Sudoku.prototype.run = function() {
-    this.traverse_and_run(function(i, j){
+    this.traverse_and_run(function(i, j) {
         this.cells[i][j].bian()
     })
 }
