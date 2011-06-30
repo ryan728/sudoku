@@ -13,7 +13,7 @@ GAME.start = function(cheat, puzzle) {
         sudoku.selected(x, y)
     })
 
-    $("#number_table>tbody>tr>td").each(function(index, element) {
+    $("#number_table>tbody>tr>td>div").each(function(index, element) {
         $(element).bind("mousedown", function() {
             $(element).addClass("mousedown_td")
             sudoku.numberSelected(index + 1)

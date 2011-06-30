@@ -15,41 +15,60 @@ html
   script(type='text/javascript', src='client/sudoku.js')
   script(type='text/javascript', src='lib/socket.io.js')
  body
-  div#fancyClock
-   input(type='button', value='Timeout', onclick="$('#fancyClock').timeout()")
-  section#connection_section
-   label(for='nick') Name:
-   input#nickInput(type='text', name='nick')
-   input#connectBtn(type='button', value='Join')
-  section#chat_room_section(style='display:none')
-   p#name_p
-   label(for='messageInput') Message:
-   input#messageInput(type='text', name='message')
-   input#messageBtn(type='button', value="Send")
-   input#disconnectBtn(type='button', value='Disconnect')
-   section
-    textarea#chat_room(rows='10', cols='50')
-    select#player_list(multiple='false', width="20", height="40")
-    input#joinBtn(type='button', value='Join')
-  section#puzzle_section(style='display:none')
-   canvas#puzzle_canvas(width='450', height='450')
-   table#number_table(border='1px')
-    tr
-     td
-      div.number_1
-     td
-      div.number_2
-     td
-      div.number_3
-     td
-      div.number_4
-     td
-      div.number_5
-     td
-      div.number_6
-     td
-      div.number_7
-     td
-      div.number_8
-     td
-      div.number_9
+  div#content
+   div#mcontent
+    section#connection_section
+     label(for='nick') Name:
+     input#nickInput(type='text', name='nick')
+     input#connectBtn(type='button', value='Join')
+    section#puzzle_section(style='display:none')
+     div#fancyClock
+      input(type='button', value='Timeout', onclick="$('#fancyClock').timeout()")
+     section#canvas_section
+      table#number_table(border='1px')
+       tr
+        td.vertical_td
+         div.number_1
+        td#puzzle_td(colspan="3", rowspan="3")
+         canvas#puzzle_canvas(width='450', height='450')
+        td.vertical_td
+         div.number_2
+       tr
+        td.vertical_td
+         div.number_3
+        td.vertical_td
+         div.number_4
+       tr
+        td.vertical_td
+         div.number_5
+        td.vertical_td
+         div.number_6
+       tr
+        td
+        td
+         div.number_7
+        td
+         div.number_8
+        td
+         div.number_9
+        td
+   aside
+    section#chat_room_section(style='display:none')
+     p#name_p
+     section
+      select#levelSelect
+       option(value='1') Easy
+       option(value='2') Medium
+       option(value='3') Hard
+       option(value='4') Evil
+      input#localPlayBtn(type='button', value='Play')
+     section
+      select#player_list(multiple='false', width="20", height="40")
+      input#joinBtn(type='button', value='Join')
+     section
+      label(for='messageInput') Message:
+      input#messageInput(type='text', name='message')
+      input#messageBtn(type='button', value="Send")
+      input#disconnectBtn(type='button', value='Disconnect')
+     section
+      textarea#chat_room(rows='10', cols='50')
