@@ -1,4 +1,3 @@
-var io = require('socket.io')
 var faye = require("../lib/faye")
 var fetcher = require('../server/puzzleFetcher')
 
@@ -53,28 +52,6 @@ var handleJoinReply = function(reply) {
     }
 }
 
-function handleMessage(message) {
-    var reply = JSON.parse(message);
-    switch (reply.type) {
-        case "connected":
-            if (!inClientsArray(reply.name)) {
-                clients.push({"name":reply.name, "ready":true})
-            }
-            broadcastMessage("{\"players\":" + JSON.stringify(clients) + "}")
-            break
-        case "joinReply":
-            handleJoinReply(reply)
-            break
-        case "fetchPuzzle":
-            handleFetchPuzzle(reply)
-            break
-        case "disconnect":
-            break
-        default:
-            broadcastMessage(message)
-    }
-}
-
 function handleJoinReply(reply) {
     if (reply.message) {
         fetcher.fetchPuzzle(4, puzzleHandler(reply))
@@ -89,21 +66,8 @@ function handleFetchPuzzle(request) {
 
 function puzzleHandler(request) {
     return function(cheat, puzzle) {
-//        reply.cheat = cheat
-//        reply.puzzle = puzzle
-//        broadcastJSONObject(reply)
-
         publish("/game/" + request.name, {"cheat":cheat, "puzzle":puzzle})
     }
-}
-
-function broadcastJSONObject(obj) {
-    broadcastMessage(JSON.stringify(obj))
-}
-
-function broadcastMessage(message) {
-    console.log("#broadcast:  " + message)
-    socket.broadcast(message)
 }
 
 function publish(channle, message) {

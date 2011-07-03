@@ -46,7 +46,6 @@ Client.prototype.connect = function() {
     })
 
     this.publish("/login")
-//    this.faye.publish("/login", {"name":this.name})
 
     $("#name_p").text("Name: " + this.name)
     $("#connection_section").hide()
@@ -59,67 +58,7 @@ Client.prototype.disconnect = function() {
 }
 
 Client.prototype.send = function(message) {
-    this.sendMessage($("#messageInput").val())
     $("#chat_room").val($("#chat_room").val() + "\n" + this.userName + ": " + "message" + $("#messageInput").val())
-}
-
-Client.prototype.handleMessage = function(message) {
-//    alert("message :" + message)
-
-    var reply = JSON.parse(message);
-
-    switch (reply.type) {
-        case "joinRequest":
-            this.handleJoinRequest(reply)
-            break
-        case "joinReply":
-            this.handleJoinReply(reply)
-            break
-        case "fetchPuzzle":
-            this.handlePuzzle(reply)
-            break
-        default:
-            this.updatePlayerList(reply);
-    }
-}
-
-Client.prototype.updatePlayerList = function(reply) {
-    $("#player_list").empty()
-    for (var i = 0; i < reply.players.length; i++) {
-        var player = reply.players[i]
-        if (player.name != this.name) {
-            this.addPlayer(player.name, player.ready)
-        }
-    }
-}
-
-Client.prototype.handleJoinRequest = function(reply) {
-    if (reply.message == this.name) {
-        var result = confirm(reply.name + " request to play game with you, agreed?")
-        this.sendMessage(result, "joinReply", {'player' : reply.name})
-    }
-}
-
-Client.prototype.handleJoinReply = function(reply) {
-//    alert(reply.name + "  "  + reply.player + "   " + reply.message)
-    if (reply.message) {
-        if (reply.player == this.name) {
-            alert("request accepted.")
-        }
-        if (reply.player == this.name || reply.name == this.name) {
-            GAME.start(reply.cheat, reply.puzzle)
-        }
-    } else {
-        if (reply.player == this.name) {
-            alert("request denied.")
-        }
-    }
-}
-
-Client.prototype.handlePuzzle = function(reply) {
-    if (reply.name == this.name) {
-        GAME.start(reply.cheat, reply.puzzle)
-    }
 }
 
 var addPlayer = function(name, isReady) {
@@ -130,9 +69,6 @@ var addPlayer = function(name, isReady) {
 }
 
 Client.prototype.play = function(level) {
-//    this.sendMessage(level, "fetchPuzzle")
-//    this.faye.publish("/game/request", {"name":this.name, "level":level})
-//    this.faye.publish("/game/request", {"name":this.name,"level":1})
     this.publish("/game/request", {'level':level})
 }
 
@@ -152,14 +88,4 @@ Client.prototype.join = function(playerName) {
         return;
     }
     this.publish("/join/request", {'player':playerName[0]})
-}
-
-Client.prototype.sendMessage = function(message, messageType, others) {
-    var package = {"name":this.name, "message":message, "type":messageType}
-    if (others) {
-        for (var member in others) {
-            package[member] = others[member]
-        }
-    }
-    this.socket.send(JSON.stringify(package))
 }

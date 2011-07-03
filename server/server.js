@@ -1,6 +1,5 @@
 var http = require("http")
 var url = require("url")
-var ioServer = require("../server/ioServer")
 var fayeServer = require("../server/fayeServer")
 
 function start(route, handle) {
@@ -24,7 +23,6 @@ function start(route, handle) {
     console.log("Server has started.")
 
     fayeServer.start(server)
-    ioServer.startIOServer(server)
 }
 
 exports.start = start

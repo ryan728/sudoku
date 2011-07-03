@@ -1,7 +1,7 @@
 var request = require("request")
 
 function fetchPuzzle(level, callback){
-    console.log("Request handler 'fetch puzzle' with level " + level + " was called.")
+    console.log("Request handler 'fetch puzzle' with level " +   + " was called.")
 
     request({uri:'http://view.websudoku.com/?level=' + level}, function(error, innerResponse, body) {
         if (innerResponse.statusCode == 200) {
